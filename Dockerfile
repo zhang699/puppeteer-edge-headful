@@ -1,4 +1,4 @@
-FROM node:18.9.0
+FROM node:lts
 
 LABEL "com.github.actions.name"="Puppeteer Headful"
 LABEL "com.github.actions.description"="A GitHub Action / Docker image for Puppeteer, the Headful Chrome Node API"
@@ -11,7 +11,7 @@ LABEL "maintainer"="Jacob Lowe"
 
 RUN  apt-get update \
      # See https://crbug.com/795759
-     && apt-get install -yq libgconf-2-4 \
+
      # Install latest chrome dev package, which installs the necessary libs to
      # make the bundled version of Chromium that Puppeteer installs work.
      && apt-get install -y wget xvfb --no-install-recommends \
@@ -26,5 +26,5 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
 COPY README.md /
 
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+COPY entrypoint.sh /
+ENTRYPOINT ["sh","/entrypoint.sh"]
